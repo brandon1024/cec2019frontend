@@ -5,7 +5,7 @@ module.exports = {
             host     : process.env.DB_HOST || '127.0.0.1',
             user     : process.env.DB_USER || 'root',
             password : process.env.DB_PASS || 'password',
-            database : 'mcpfrontend',
+            database : 'cec2019frontend',
             charset  : 'utf8'
         },
         pool: { min: 2, max: 10 },
@@ -25,7 +25,7 @@ module.exports = {
             host     : process.env.DB_HOST || '127.0.0.1',
             user     : process.env.DB_USER || 'root',
             password : process.env.DB_PASS || 'password',
-            database : 'mcpfrontendtest',
+            database : 'cec2019frontend_test',
             charset  : 'utf8'
         },
         pool: { min: 2, max: 10 },
@@ -45,7 +45,7 @@ module.exports = {
             host     : process.env.DB_HOST || '127.0.0.1',
             user     : process.env.DB_USER || 'root',
             password : process.env.DB_PASS || 'password',
-            database : 'mcpfrontendprod',
+            database : 'cec2019frontend_prod',
             charset  : 'utf8'
         },
         pool: { min: 2, max: 10 },

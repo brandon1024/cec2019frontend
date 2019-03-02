@@ -4,11 +4,11 @@ This walkthrough assumes you have Node.js installed locally. If this is not the 
 This walkthrough also assumes you are developing on a Unix-based system.
 
 ## Environment Setup
-First, you'll need to checkout a copy of the repository on your local machine. Clone the repository into your WebStorm folder and checkout the master branch (should do so by default). Once complete, you can import the project into WebStorm by selecting `Open Project` and selecting the `node-skeleton` directory.
+First, you'll need to checkout a copy of the repository on your local machine. Clone the repository into your WebStorm folder and checkout the master branch (should do so by default). Once complete, you can import the project into WebStorm by selecting `Open Project` and selecting the `cec2019frontend` directory.
 
 ```
-git clone https://github.com/brandon1024/node-skeleton.git
-cd node-skeleton
+git clone git@github.com:brandon1024/cec2019frontend.git
+cd cec2019frontend
 git checkout master
 ```
 
@@ -37,7 +37,7 @@ This project relies on MySQL, so you will need to ensure you have it installed. 
 - MacOS: [2.4.2 Installing MySQL on OS X Using Native Packages - MySQL](https://dev.mysql.com/doc/refman/5.6/en/osx-installation-pkg.html)
 
 Although it isn't necessarily required, MySQL Workbench and JetBrains DataGrip are very useful tools for managing the database users and schemas. Once you have MySQL Workbench installed, create a new connection with the following parameters:
-- Connection Name: node-skeleton (note: this name is irrelevant)
+- Connection Name: cec2019frontend (note: this name is irrelevant)
 - Hostname: 127.0.0.1
 - Port: 3306
 - Username: root

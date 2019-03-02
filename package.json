@@ -22,7 +22,7 @@
     "express-session": "^1.15.6",
     "font-awesome": "^4.7.0",
     "knex": "^0.14.3",
-    "mdbootstrap": "^4.4.4",
+    "mdbootstrap": "^4.7.3",
     "morgan": "~1.9.0",
     "mysql": "^2.15.0",
     "node-sass-middleware": "0.9.8",
