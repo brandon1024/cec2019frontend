@@ -194,7 +194,8 @@ let exampleInstance = {
 
         let serverEventSource = new EventSource('/stream', { withCredentials: true } );
         serverEventSource.addEventListener("update", function(e) {
-            let instanceDetails = JSON.parse(e.data).payload;
+            console.log(e.data);
+            let instanceDetails = JSON.parse(e.data);
             drawMap(instanceDetails, ctx);
         }, false);
 
@@ -294,14 +295,14 @@ let exampleInstance = {
         ctx.beginPath();
 
         switch(direction) {
-            case 'N':
+            case 'S':
                 ctx.moveTo(xPos, yPos - RENDER_SIZE);
                 ctx.lineTo(xPos - RENDER_SIZE, yPos + RENDER_SIZE);
                 ctx.lineTo(xPos + RENDER_SIZE, yPos + RENDER_SIZE);
                 ctx.moveTo(xPos, yPos - 5);
                 ctx.closePath();
                 break;
-            case 'S':
+            case 'N':
                 ctx.moveTo(xPos, yPos + RENDER_SIZE);
                 ctx.lineTo(xPos - RENDER_SIZE, yPos - RENDER_SIZE);
                 ctx.lineTo(xPos + RENDER_SIZE, yPos - RENDER_SIZE);

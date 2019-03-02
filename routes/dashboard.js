@@ -27,7 +27,7 @@ module.exports = (app, passport) => {
 
     /* API Endpoints */
     const Stream = new EventEmitter();
-    app.get('/stream', function(req, res) {
+    app.get('/stream', authenticate, function(req, res) {
         res.writeHead(200, {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
@@ -39,15 +39,13 @@ module.exports = (app, passport) => {
         });
     });
 
-    const instanceFile = '/tmp/instance.json';
-    fs.watch(instanceFile, (event, filename) => {
-        fs.readFile(instanceFile, {encoding: 'utf-8'}, function(err, contents) {
-            if(!err) {
-                Stream.emit("push", "update", JSON.stringify(JSON.parse(contents)));
-            } else {
-                Stream.emit("push", "close", err);
-            }
-        });
+    app.post('/update', function(req, res) {
+        Stream.emit("push", "update", JSON.stringify(req.body));
+        res.send(req.body);
+    });
+
+    app.post('/close', function(req, res) {
+        Stream.emit("push", "close");
     });
 
     /* Register Router */
