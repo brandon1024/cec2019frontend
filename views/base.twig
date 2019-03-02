@@ -1,0 +1,29 @@
+<!-- TODO Set Title -->
+{% set title = 'CEC2019 Frontend' %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#78909c"/>
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel='stylesheet' href='/mdb/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='/stylesheets/base.css'/>
+    <link rel='stylesheet' href='/mdb/css/mdb.min.css'/>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'/>
+    <link rel='icon' href='/images/favicon.ico'/>
+    {% block stylesheets %}{% endblock %}
+  </head>
+  <body>
+    <header>
+      {% include 'navbar.twig' with title %}
+    </header>
+    {% block body %}{% endblock %}
+  </body>
+  <script type="text/javascript" src="/mdb/js/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/mdb/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/mdb/js/mdb.min.js"></script>
+  <script type="text/javascript" src="/mdb/js/popper.min.js"></script>
+  {% block scripts %}{% endblock %}
+</html>
