@@ -12,7 +12,7 @@
   </div>
 {% endset %}
 
-<nav class="navbar fixed-top navbar-expand-lg scrolling-navbar navbar-light">
+<nav class="navbar fixed-top navbar-expand-lg scrolling-navbar navbar-dark">
   <a class="navbar-brand" href="/"><strong>{{ title }}</strong></a>
   <div class="navbar-toggle-buttons">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -39,7 +39,7 @@
   </div>
   <!-- Display User Icon Justified Right on Desktop -->
   {% if authenticated %}
-    <div id="user-nav-icon" class="btn-group">
+    <div id="user-nav-icon" class="btn-group white-text">
       {{ usercontrols }}
     </div>
   {% endif %}

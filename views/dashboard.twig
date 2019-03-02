@@ -15,10 +15,49 @@
   <div class="row padding-nav">
     <div class="col">
       <div class="card h-100" id="map-card">
-        <div class="card-body pb-0 w-100">
+        <div class="card-body w-100">
           <canvas id="map-canvas"></canvas>
         </div>
-        <span class="text-right w-100 pr-2 pb-2" id="map-status-text">Reloading in 10s...</span>
+      </div>
+    </div>
+    <div class="col col-md-3" id="status-pane">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="h2-responsive">Instance Details</h2>
+              <p>Room Dimensions: <span class="status-field" id="room-dim-field"></span></p>
+              <p>Organic Bin Location: <span class="status-field" id="org-bin-location-field"></span></p>
+              <p>Recycle Bin Location: <span class="status-field" id="rec-bin-location-field"></span></p>
+              <p>Garbage Bin Location: <span class="status-field" id="gar-bin-location-field"></span></p>
+              <p>Scan Radius: <span class="status-field" id="scan-radius-field"></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="h2-responsive">Robot Details</h2>
+              <p>Robot Position: <span class="status-field" id="robot-pos-field"></span></p>
+              <p>Robot Direction: <span class="status-field" id="robot-dir-field"></span></p>
+              <p>Items Held: <span class="status-field" id="robot-items-held-field"></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="h2-responsive">Status Details</h2>
+              <p>Time Spent: <span class="status-field" id="time-spent-field"></span></p>
+              <p>Items Collected: <span class="status-field" id="items-collected-field"></span></p>
+              <p>% Completion: <span class="status-field" id="completion-field"></span></p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

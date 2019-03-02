@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const https = require('https');
+const EventEmitter = require('events');
+const fs = require('fs');
 const knex = require('../config/db/bookshelf').knex;
 
 /* Debugger */
@@ -24,126 +26,27 @@ module.exports = (app, passport) => {
 
 
     /* API Endpoints */
-    router.get('/ledger', authenticate, (req, res, next) => {
-        let host = "https://7066414.pythonanywhere.com";
-        let path = "/mcp/get_ledger?token=78b9a29078a60441508d28c2f67a7ebb";
+    const Stream = new EventEmitter();
+    app.get('/stream', function(req, res) {
+        res.writeHead(200, {
+            'Content-Type': 'text/event-stream',
+            'Cache-Control': 'no-cache',
+            'Connection': 'keep-alive'
+        });
 
-        https.get(host + path, function (resp) {
-            const { statusCode } = resp;
-            const contentType = resp.headers['content-type'];
+        Stream.on("push", function(event, data) {
+            res.write("event: " + String(event) + "\n" + "data: " + data + "\n\n");
+        });
+    });
 
-            let currDate = new Date(Date.now()).toISOString().replace(/T/, ' ').replace(/\..*$/, '');
-            let log = currDate + " " + host + path;
-            knex('logs').insert({log: log}).then().catch(() => {
-                console.error(error.message);
-            });
-
-            let error;
-            if (statusCode !== 200)
-                error = new Error('Request Failed.\n' + `Status Code: ${statusCode}`);
-            else if (!/^application\/json/.test(contentType))
-                error = new Error('Invalid content-type.\n' + `Expected application/json but received ${contentType}`);
-
-            if(error) {
-                console.error(error.message);
-                // consume response data to free up memory
-                res.status(500);
-                return;
+    const instanceFile = '/tmp/instance.json';
+    fs.watch(instanceFile, (event, filename) => {
+        fs.readFile(instanceFile, {encoding: 'utf-8'}, function(err, contents) {
+            if(!err) {
+                Stream.emit("push", "update", JSON.stringify(JSON.parse(contents)));
+            } else {
+                Stream.emit("push", "close", err);
             }
-
-            resp.setEncoding('utf8');
-
-            let rawData = '';
-            resp.on('data', (chunk) => {
-                rawData += chunk;
-            });
-
-            resp.on('end', () => {
-                try {
-                    res.status(200).send(JSON.parse(rawData)['ledger']);
-                } catch (e) {
-                    res.status(500);
-                }
-            });
-        }).on('error', (e) => {
-            res.status(500);
-        });
-    });
-
-    router.post('/logs', authenticate, (req, res, next) => {
-        if(!req.body)
-            return res.status(400).send('No request body.');
-
-        let log = req.body['log'];
-        if(!log)
-            return res.status(400).send('No log file.');
-
-        knex('logs').insert({log: log}).then(() => {
-            return res.status(200).send('Log saved.');
-        }).catch((err) => {
-            debug(err);
-            return res.status(500).send('Internal Server Error.');
-        });
-    });
-
-    router.get('/logs', authenticate, (req, res, next) => {
-        knex('logs').select('log').then((logs) => {
-            return res.status(200).send(logs);
-        }).catch((err) => {
-            debug(err);
-            return res.status(500).send('Internal Server Error.');
-        });
-    });
-
-    router.get('/downloadlogs', authenticate, (req, res, next) => {
-        knex('logs').select('log').then((logs) => {
-            let logData = "";
-
-            for(let index = 0; index < logs.length; index++)
-                logData += logs[index].log + "\n";
-
-            res.set({"Content-Disposition":"attachment; filename=\"logs.log\""});
-            res.send(logData);
-        }).catch((err) => {
-            debug(err);
-            return res.status(500).send('Internal Server Error.');
-        });
-    });
-
-    router.post('/map', authenticate, (req, res, next) => {
-        if(!req.body)
-            return res.status(400).send('No request body.');
-
-        if(!req.body['map'])
-            return res.status(400).send('No coords.');
-        if(!req.body['rows'])
-            return res.status(400).send('No rows.');
-        if(!req.body['cols'])
-            return res.status(400).send('No cols.');
-
-        knex('map_coords').del().then(() => {
-            //format: [{x: _, y: _}, ...]
-            let data = {coords: req.body['map'], rows: req.body['cols'], cols: req.body['rows']};
-
-            return knex('map_coords').insert({coords: JSON.stringify(data)});
-        }).then(() => {
-            return res.status(200).send('Coordinates saved.');
-        }).catch((err) => {
-            return res.status(500).send('Internal Server Error.');
-        });
-    });
-
-    router.get('/map', authenticate, (req, res, next) => {
-        knex('map_coords').select('coords').then((data) => {
-            try {
-                return res.status(200).send(JSON.parse(data[0].coords));
-            } catch (e) {
-                console.log(e);
-                return res.status(200).send({coords: [], rows: 0, cols: 0});
-            }
-        }).catch((err) => {
-            debug(err);
-            return res.status(500).send('Internal Server Error.');
         });
     });
 
