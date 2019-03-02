@@ -197,6 +197,7 @@ let exampleInstance = {
             console.log(e.data);
             let instanceDetails = JSON.parse(e.data);
             drawMap(instanceDetails, ctx);
+            updateStatusPane(instanceDetails);
         }, false);
 
         serverEventSource.addEventListener("close", function(e) {
